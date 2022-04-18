@@ -97,17 +97,11 @@ export class AllureReporter {
     this.currentTest.stage = Stage.RUNNING;
 
     if (test.parent) {
-      const [parentSuite, suite, ...subSuites] = test.parent.titlePath();
+      const parentSuite = test.parent.fullTitle();
       if (parentSuite) {
-        this.currentTest.addLabel(LabelName.PARENT_SUITE, parentSuite);
+          this.currentTest.addLabel(allure_js_commons_1.LabelName.PARENT_SUITE, parentSuite);
       }
-      if (suite) {
-        this.currentTest.addLabel(LabelName.SUITE, suite);
-      }
-      if (subSuites.length > 0) {
-        this.currentTest.addLabel(LabelName.SUB_SUITE, subSuites.join(" > "));
-      }
-    }
+  }
   }
 
   public passTestCase(test: Mocha.Test): void {
