@@ -1,43 +1,80 @@
 {
-  "name": "allure-js",
-  "private": true,
+  "name": "allure-mocha",
   "version": "2.0.0-beta.15",
-  "workspaces": [
-    "packages/*"
+  "description": "Allure Mocha integration",
+  "license": "Apache-2.0",
+  "author": "Sergey Korol <serhii.s.korol@gmail.com>",
+  "repository": "https://github.com/allure-framework/allure-js",
+  "keywords": [
+    "mocha",
+    "typescript",
+    "allure"
   ],
+  "main": "dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "prepare": "husky install",
-    "prettier:format": "prettier --write './packages/*/{src,test,features}/**/*.{js,ts}'",
-    "clean": "yarn workspaces foreach -vpt run clean",
-    "compile": "yarn workspaces foreach -vpt run compile",
-    "lint": "yarn workspaces foreach -vpt run lint",
-    "test": "yarn workspaces foreach -vpt run test",
-    "build": "yarn run clean && yarn run compile"
-  },
-  "lint-staged": {
-    "*.ts": [
-      "prettier --write"
-    ]
+    "clean": "rimraf dist ./out",
+    "compile": "tsc",
+    "generate-report": "allure generate ./out/allure-results -o ./out/allure-report --clean",
+    "allure-report": "allure serve ./out/allure-results",
+    "test:compile": "nyc ts-node --project test/tsconfig.json",
+    "test": "nyc ts-node --project test/tsconfig.json test/runner.ts",
+    "coverage": "codecov",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix"
   },
   "devDependencies": {
-    "@types/node": "^14.6.0",
-    "@typescript-eslint/eslint-plugin": "^4.29.3",
-    "@typescript-eslint/parser": "^4.29.3",
-    "allure-commandline": "^2.13.8",
+    "@testdeck/mocha": "0.1.2",
+    "@types/chai": "^4.2.11",
+    "@types/glob": "^7.1.4",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.7.8",
+    "chai": "^4.2.0",
+    "codecov": "^3.6.5",
+    "dotenv": "^10.0.0",
     "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.24.2",
-    "eslint-plugin-jsdoc": "^37.0.0",
-    "eslint-plugin-no-null": "^1.0.2",
-    "eslint-plugin-prefer-arrow": "^1.2.3",
-    "husky": "^7.0.2",
-    "lint-staged": "^11.1.2",
-    "npm-run-all": "^4.1.5",
-    "nyc": "^15.1.0",
+    "fs-jetpack": "^4.1.0",
+    "glob": "^7.1.7",
+    "mocha": "^9.1.3",
+    "mocha-multi-reporters": "^1.5.1",
+    "nyc": "^15.0.1",
     "prettier": "^2.3.2",
-    "replace-in-file": "^6.2.0",
     "rimraf": "^3.0.2",
+    "source-map-support": "^0.5.19",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.2"
-  }
+  },
+  "dependencies": {
+    "allure-js-commons": "workspace:*"
+  },
+  "peerDependencies": {
+    "mocha": ">=6.2.x"
+  },
+  "nyc": {
+    "check-coverage": false,
+    "lines": 80,
+    "statements": 80,
+    "functions": 75,
+    "branches": 70,
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "test/**/*.*",
+      "**/*.d.ts",
+      "runtime.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "all": true,
+    "report-dir": "./out/coverage",
+    "temp-dir": "./out/.nyc"
+  },
+  "files": [
+    "dist",
+    "runtime.js",
+    "runtime.d.ts"
+  ]
 }

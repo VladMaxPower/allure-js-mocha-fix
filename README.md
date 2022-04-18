@@ -1,41 +1,59 @@
-# Allure Javascript Integrations
+# allure-mocha
 
-This project aggregates Allure Javascript commons and reporters. 
+This project implements Allure integration with Mocha framework.
 
-## Supported frameworks
+## Installation
 
-### Cucumber.JS
-![npm](https://img.shields.io/npm/dm/allure-cucumberjs.svg) ![npm](https://img.shields.io/npm/v/allure-cucumberjs.svg)
+```bash
+npm i allure-mocha mocha --save-dev
+```
+or via yarn:
+```bash
+yarn add allure-mocha mocha --dev
+```
 
-[Read more](/packages/allure-cucumberjs/README.md)
+Note that it's recommended to add the following dependencies as well for better user experience:
 
+ - typescript
+ - mocha-typescript
+ - source-map-support
 
-### Jasmine
-![npm](https://img.shields.io/npm/dm/allure-jasmine.svg) ![npm](https://img.shields.io/npm/v/allure-jasmine.svg)
+## Usage
 
-[Read more](/packages/allure-jasmine/README.md)
+Either add **allure-mocha** into **mocha.opts**:
 
+```text
+--reporter allure-mocha
+```
 
-### Jest
-[Read more](/packages/allure-jest/README.md)
+Or pass the same value via commandline / scripts:
 
+```bash
+mocha -R allure-mocha
+```
 
-### Mocha
-![npm](https://img.shields.io/npm/dm/allure-mocha.svg) ![npm](https://img.shields.io/npm/v/allure-mocha.svg)
+If you want to provide extra information, such as steps and attachments, import the `allure` object 
+into your code:
 
-[Read more](/packages/allure-mocha/README.md)
+```javascript
+// es-modules
+import {allure} from 'runtime';
+// or commonjs
+const {allure} = require('runtime');
 
+it('is a test', () => {
+    allure.epic('Some info');
+});
+``` 
 
-### Playwright
-[Read more](/packages/allure-playwright/README.md)
-![npm](https://img.shields.io/npm/dm/allure-playwright.svg) ![npm](https://img.shields.io/npm/v/allure-playwright.svg)
+## Decorators Support
 
-## Development
+To make tests more readable and avoid explicit API calls, you can use a special extension - [ts-test-decorators](https://github.com/sskorol/ts-test-decorators).
 
-### allure-js-commons
+## Examples
 
-Interface for Allure 2 to be used from Javascript and TypeScript.
+See [mocha-allure2-example](https://github.com/sskorol/mocha-allure2-example) project, which is already configured to use latest Allure 2 features with decorators support.
 
-![npm](https://img.shields.io/npm/dm/allure-js-commons.svg) ![npm](https://img.shields.io/npm/v/allure-js-commons.svg)
+## Thanks
 
-[Read more](/packages/allure-js-commons/README.md)
+[@srg-kostyrko](https://github.com/srg-kostyrko) for help and assistance.
