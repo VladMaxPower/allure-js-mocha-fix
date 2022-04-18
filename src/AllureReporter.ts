@@ -99,7 +99,7 @@ export class AllureReporter {
     if (test.parent) {
       const parentSuite = test.parent.fullTitle();
       if (parentSuite) {
-          this.currentTest.addLabel(LabelName.PARENT_SUITE, parentSuite);
+          this.currentTest.addLabel("parentSuite", parentSuite);
       }
   }
   }
